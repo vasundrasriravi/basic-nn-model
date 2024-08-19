@@ -5,13 +5,7 @@
 To develop a neural network regression model for the given dataset.
 
 ## THEORY
-
-1) Developing a Neural Network Regression Model AIM To develop a neural network regression model for the given dataset. THEORY Neural networks consist of simple input/output units called neurons (inspired by neurons of the human brain). These input/output units are interconnected and each connection has a weight associated with it.
-
-2) Regression helps in establishing a relationship between a dependent variable and one or more independent variables. Regression models work well only when the regression equation is a good fit for the data. Most regression models will not fit the data perfectly.
-
-3) First import the libraries which we will going to use and Import the dataset and check the types of the columns and Now build your training and test set from the dataset Here we are making the neural network 3 hidden layer with activation layer as relu and with their nodes in them. Now we will fit our dataset and then predict the value.
-
+Designing and implementing a neural network regression model aims to accurately predict a continuous target variable based on a set of input features from the provided dataset. The neural network learns complex relationships within the data through interconnected layers of neurons. The model architecture includes an input layer for the features, several hidden layers with non-linear activation functions like ReLU to capture complex patterns, and an output layer with a linear activation function to produce the continuous target prediction. 
 ## Neural Network Model
 
 
@@ -43,8 +37,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Sequential
+from google.colab import auth
 import gspread
-import pandas as pd
 from google.auth import default
 import pandas as pd
 ```
@@ -53,46 +47,49 @@ import pandas as pd
 ```py
 auth.authenticate_user()
 creds, _ = default()
-gc = gspread.authorize(creds)
-worksheet = gc.open('Data').sheet1
+gc=gspread.authorize(creds)
+worksheet = gc.open('data').sheet1
+data=worksheet.get_all_values()
 ```
 ## Construct Data frame using Rows and columns
 ```py
-rows = worksheet.get_all_values()
-df = pd.DataFrame(rows[1:], columns=rows[0])
-df.head()
-X=df[['Input']].values
-Y=df[['Output']].values
+dataset1=pd.DataFrame(data[1:], columns=data[0])
+dataset1=dataset1.astype({'x':'float'})
+dataset1=dataset1.astype({'y':'float'})
+dataset1
+x=dataset1[['x']].values
+y=dataset1[['y']].values
 ```
 ## Split the testing and training data
 ```py
-x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.5,random_state=40)
-Scaler = MinMaxScaler()
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.33,random_state=33)
+Scaler=MinMaxScaler()
 Scaler.fit(x_train)
-X_train1 = Scaler.transform(x_train)
+x_train1=Scaler.transform(x_train)
 ```
 
 ## Build the Deep learning Model
 ```py
-ai_brain=Sequential([
-    Dense(9,activation = 'relu',input_shape=[1]),
-    Dense(16,activation = 'relu'),
+ai_brain = Sequential([
+    Dense(8,activation = 'relu'),
+    Dense(10,activation = 'relu'),
     Dense(1)
-])
-ai_brain.compile(optimizer='adam',loss='mse')
-ai_brain.fit(X_train1,y_train.astype(np.float32),epochs=1999)
 
-loss_df = pd.DataFrame(ai_brain.history.history)
+])
+ai_brain.compile(optimizer = 'rmsprop', loss = 'mse')
+ai_brain.fit(x_train1,y_train,epochs=1999)
+loss_df=pd.DataFrame(ai_brain.history.history)
 loss_df.plot()
 ```
 
 ## Evaluate the Model
 ```py
-test=Scaler.transform(x_test)
-ai_brain.evaluate(test,y_test.astype(np.float32))
-n1=[[18]]
-n1_1=Scaler.transform(n1)
-ai_brain.predict(n1_1)
+x_test1=Scaler.transform(x_test)
+ai_brain.evaluate(x_test1,y_test)
+
+x_n1=[[18]]
+x_n1_1=Scaler.transform(x_n1)
+ai_brain.predict(x_n1_1)
 ```
 ## Dataset Information
 ![Screenshot 2024-08-19 121809](https://github.com/user-attachments/assets/d2217db0-ad26-4fc4-bb18-b7f9c879a355)
