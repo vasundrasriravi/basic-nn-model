@@ -7,7 +7,7 @@ To develop a neural network regression model for the given dataset.
 ## THEORY
 Designing and implementing a neural network regression model aims to accurately predict a continuous target variable based on a set of input features from the provided dataset. The neural network learns complex relationships within the data through interconnected layers of neurons. The model architecture includes an input layer for the features, several hidden layers with non-linear activation functions like ReLU to capture complex patterns, and an output layer with a linear activation function to produce the continuous target prediction. 
 ## Neural Network Model
-
+![Screenshot 2024-08-19 200135](https://github.com/user-attachments/assets/ff77dfe9-6f72-4de0-9e0d-0e0fe6e8bf51)
 
 ## DESIGN STEPS
 ### STEP 1:
@@ -71,13 +71,13 @@ x_train1=Scaler.transform(x_train)
 ## Build the Deep learning Model
 ```py
 ai_brain = Sequential([
-    Dense(8,activation = 'relu'),
-    Dense(10,activation = 'relu'),
+    Dense(8,activation = 'relu',input_shape=[1]),
+    Dense(10, activation = 'relu'),
     Dense(1)
 
 ])
 ai_brain.compile(optimizer = 'rmsprop', loss = 'mse')
-ai_brain.fit(x_train1,y_train,epochs=1999)
+ai_brain.fit(x_train1,y_train,epochs=1997)
 loss_df=pd.DataFrame(ai_brain.history.history)
 loss_df.plot()
 ```
@@ -96,15 +96,14 @@ ai_brain.predict(x_n1_1)
 
 ## OUTPUT
 ## Training Loss Vs Iteration Plot
-![Screenshot 2024-08-19 122057](https://github.com/user-attachments/assets/9a624b56-2e28-462d-97c8-6e566e2a3b99)
+![Screenshot 2024-08-19 195909](https://github.com/user-attachments/assets/5eb98867-ec67-4587-93c7-62c4ee2c0356)
 
 ## Test Data Root Mean Squared Error
-![Screenshot 2024-08-19 122025](https://github.com/user-attachments/assets/acb6b415-b3b7-46b2-b5b5-075894cc1655)
+![Screenshot 2024-08-19 195856](https://github.com/user-attachments/assets/fd2b0842-dadb-480e-befc-c551c708cd98)
 
 ## New Sample Data Prediction
-![Screenshot 2024-08-19 122127](https://github.com/user-attachments/assets/57b43d3f-0aab-49f0-9adf-864de31c6674)
-![Screenshot 2024-08-19 122140](https://github.com/user-attachments/assets/71da3250-c86b-4543-b32d-aad6df0ad08c)
-
+![Screenshot 2024-08-19 195919](https://github.com/user-attachments/assets/391b8cca-e8d6-4eb9-9377-62e255b4b91d)
+![Screenshot 2024-08-19 195930](https://github.com/user-attachments/assets/6cb318e9-c1e5-4c37-9cfc-3240db8ee2bb)
 
 ## RESULT
 Thus a Neural network for Regression model is Implemented
